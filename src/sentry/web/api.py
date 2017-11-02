@@ -344,6 +344,7 @@ class StoreView(APIView):
             content_encoding=request.META.get('HTTP_CONTENT_ENCODING', ''),
             helper=helper,
             project=project,
+            key=key,
             auth=auth,
             client_ip=remote_addr,
         )
@@ -492,7 +493,6 @@ class StoreView(APIView):
             helper.ensure_does_not_have_ip(data)
 
         # mutates data (strips a lot of context if not queued)
-        data['key_id'] = key.id
         helper.insert_data_to_database(data)
 
         cache.set(cache_key, '', 60 * 5)
